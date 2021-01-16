@@ -162,7 +162,7 @@ function splitLines(text) {
 				detailtemp += detail(i, deta);
 			}else if(action === 'bahan-bahan'){
 				bahantemp += '* '+lines[i]+'\n';
-				keywordstemp += ' • '+lines[i];
+				keywordstemp += lines[i]+'. ';
 			}else if(action === 'instruksi'){
 				if(step===0){
 					instruksitemp += `<li class='howToSection'>`+lines[i]+`</li>
@@ -239,11 +239,11 @@ function beauty(text){
       'indent_inner_html': false,
       'indent_size': 2,
       'indent_char': ' ',
-      'wrap_line_length': 78,
+      'wrap_line_length': false,
       'brace_style': 'expand',
       'unformatted': ['a', 'sub', 'sup', 'b', 'i', 'u'],
-      'preserve_newlines': true,
-      'max_preserve_newlines': 5,
+      'preserve_newlines': false,
+      'max_preserve_newlines': 1,
       'indent_handlebars': false
     });
 	return text;
