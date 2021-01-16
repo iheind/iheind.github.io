@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">    
+<script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://matheusavellar.github.io/textarea-line-numbers/tln.min.css"/>
+<script type="text/javascript" src="https://matheusavellar.github.io/textarea-line-numbers/tln.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.6.8/beautify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.6.8/beautify-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.6.8/beautify-html.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.min.js" integrity="sha512-Z5dAQyvO8EyY1cHQcqYTYL8z6PDjM0URql6AioNodsSxxTJS5Fqfujr+o/4ye2dLp0he1qAVTiZABTunv6oLow==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCore.min.css" integrity="sha512-q9B+BRcW0p2dRy94K1it1sy2Dv9UkAqIYoAUcWQY7Pis6fcQSAe5lohmJiymUL5glkr+Gu8fEVW6UjNKz6qm3A==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCoreDefault.min.css" integrity="sha512-m86ay46+VXJi/u/ARTNMtfjIXdW6ht5LULFIK1GvPRobUlQgRdZTs7f105BDB8pzFCxk/6nq5otE9j12Onkyow==" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJava.min.js" integrity="sha512-UYSg4vizNRvEp+m59O9HFYRVjKzC+a2RVlZsj9vOXbmiCMZtneIIu3gh3eXfNfxGhk7sixse+MAjhpMx8N33RA==" crossorigin="anonymous"></script>
+<script language="javascript" type="text/javascript">
+    SyntaxHighlighter.config.bloggerMode = true;
+    SyntaxHighlighter.all();
+</script>
+<!-- 'SyntaxHighlighter' additions END -->
+<style id="compiled-css" type="text/css">
+textarea {
+	top:0;
+	width: 50%;
+	height: 45%;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+
+    border: 1px black solid;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -o-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        border-radius: 8px;
+		
+}
+
+
+.prettyprint {
+        width: 47%;
+		max-height:45%;
+        margin: 1em auto;
+        padding: 1em;
+        white-space: pre-wrap;
+		font-size:16px;
+		overflow-y: scroll;
+		
+        background-color: #000;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -o-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        border-radius: 8px;
+		color: white;
+}
+.syntaxhighlighter {
+  width: 100%;
+  height: auto;
+  max-height:300px;
+  overflow-y: scroll !important;
+  overflow-x: scroll !important;
+  margin: 1em 0 1em 0 !important;
+  position: relative !important;
+  font-size: 1em !important;
+}
+
+html, body {
+height: 97%;
+width: 97%;
+}
+table {
+height: 97%;
+width: 97%;
+}
+@media only screen and (max-width: 600px) {
+
+.prettyprint {
+        width: 97%;
+		}
+}
+
+        #wrapper{border:1px solid green;position:relative;
+        height:45%;width:100%;margin:15px auto}
+        #wrapper::before {
+        content:"Masukan Data";text-transform: uppercase;left:0px;
+        position:absolute;top:-18px;font-size:16px;color:green; }
+</style>
+</head>
+<body>
+<div id="wrapper">
+<textarea id="txt1">
+<!-- detail -->
+Image#>
+deskripsi#>
+author_name#>
+persiapan#>
+lama memasak#>
+porsi#>
+Hidangan Pembuka - Sop - Hidangan Pokok - Hidangan Penutup#>
+Asal Masakan#>
+kalori#>
+
+<!-- bahan-bahan -->
+masukan list bahan disini
+
+<!-- instruksi -->
+content instruksi disini
+<!-- akhiri instruksi --></textarea>
+</div>
+
+
+<pre id="txt2"></pre>
+
+<!--<textarea id="txt2" readonly="yes" class="prettyprint" rows="10" placeholder="put code here"></textarea>-->
+<script>
+TLN.append_line_numbers('txt1');
+
+txt1.onkeyup = txt1.onkeydown = txt1.onchange = removeBlankLine;
+removeBlankLine()
+//replace();
+//removeBlankLine()
+
+function splitLines(text) {
+	var number = 0;
+	lines = text.split('\n');
+	var action;
+	var temp = '';
+	var detailtemp = '';
+	var bahantemp = '';
+	var instruksitemp = '';
+	var firstkeyword = '';
+	var keywordstemp = '';
+	for(var i = 0;i < lines.length;i++){
+		// /* get this */ var matches = lines[i].match(/\/\*\s*(.*?)\*\//);
+		var matches = lines[i].match(/<!--(.*?)-->/);
+		if (matches && matches[1].trim() === 'detail') {
+			//alert(matches[1]);
+			action = 'detail';
+			detailtemp += '<!-- detail -->\n';
+		}else if(matches && matches[1].trim() === 'bahan-bahan'){
+			action = 'bahan-bahan';
+			bahantemp += '\n<!-- bahan-bahan -->\n';
+		}else if(matches && matches[1].trim() === 'instruksi'){
+			var step = 0;
+			action = 'instruksi';
+			instruksitemp += '\n\n<!-- instruksi -->\n';
+			instruksitemp +=	`<ul>`;
+		}else if(matches && matches[1].trim() === 'akhiri instruksi'){
+			instruksitemp += `</li></ul>`;
+			instruksitemp += '\n\n<!-- akhiri instruksi -->\n';
+		}else{
+			if(action === 'detail'){
+				deta = lines[i].split('#>')[1].trim();
+				detailtemp += detail(i, deta);
+			}else if(action === 'bahan-bahan'){
+				bahantemp += '* '+lines[i]+'\n';
+				keywordstemp += ' • '+lines[i];
+			}else if(action === 'instruksi'){
+				if(step===0){
+					instruksitemp += `<li class='howToSection'>`+lines[i]+`</li>
+										<li class='howToStep'>`;
+					firstkeyword += lines[i];
+				}else{
+					instruksitemp += '# <p id="step_name">Langkah '+step+'</p><p id="step_text">'+lines[i]+'</p>\n';
+				}
+				step = step+1;
+			}
+		}
+	}
+	temp += detailtemp+'\n';
+	temp += beauty(createList(bahantemp))+'\n\n';
+	temp += beauty(createList(instruksitemp))+'\n\n';
+	temp += '\n<p id="keywords">'+firstkeyword+' '+keywordstemp+'</p>';
+	return temp;
+}
+
+function detail(i, text) {
+	var arr = ['','image','description','author_name','prepTime','cookTime','recipeYield','recipeCategory','recipeCuisine','calories'];
+	if(i === 1){
+		text = '<img id="'+arr[i]+'" src="'+text+'" />\n';
+	}else if(i <= 9){
+		text = '<p id="'+arr[i]+'">'+text+'</p>\n';
+	}
+	return text;
+}
+
+
+function removeBlankLine() {
+	var res = txt1.value.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").replace(/^\s*(?:[\dA-Z]+\.|[a-z]\)|•)\s+/gm,"");
+	var temp = splitLines(res); // loop lines
+	//var temp = replace(temp); // create list bahan
+	var regex1 = new RegExp('<', 'g');
+	var regex2 = new RegExp('>', 'g');
+	result = "<pre class='brush: java; highlight: [1,2,3,4,5,6,7,8,9,10]'>" + temp.replace(regex1,'&lt;').replace(regex2,'&gt;')+"</pre>";
+	txt2.innerHTML = result;
+	SyntaxHighlighter.highlight();
+}
+
+
+function createList(temp) {
+  rep = temp.
+    replace (/\*\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul id='recipeIngredient'><li>\n$1</li></ul>").
+    replace ( /#\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul><li>\n$1</li></ul>").
+    replace (/(<\/ul>\n?<ul id='recipeIngredient'>|<\/ul>\n?<ul>)/g, "");
+	
+	return rep;
+/*
+  txt2.innerHTML = txt1.value.
+    replace (/\*\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul><li>\n$1</li></ul>").
+    replace ( /#\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ol><li>\n$1</li></ol>").
+    replace (/(<\/ul>\n?<ul>|<\/ol>\n?<ol>)/g, "");
+*/
+}
+
+function instruksi(temp) {
+  rep = temp.
+    replace (/\^\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul><li>\n$1</li></ul>").
+    replace ( /#\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ol><li>\n$1</li></ol>").
+    replace (/(<\/ul>\n?<ul id='recipeIngredient'>|<\/ol>\n?<ol>)/g, "");
+	
+	return rep;
+}
+
+function customLine(number){
+	var number1 = number+". image:";
+	document.getElementById("number"+number).innerHTML = number1;
+}
+
+function beauty(text){
+	var text = html_beautify(text,{
+      'indent_inner_html': false,
+      'indent_size': 2,
+      'indent_char': ' ',
+      'wrap_line_length': 78,
+      'brace_style': 'expand',
+      'unformatted': ['a', 'sub', 'sup', 'b', 'i', 'u'],
+      'preserve_newlines': true,
+      'max_preserve_newlines': 5,
+      'indent_handlebars': false
+    });
+	return text;
+}
+
+</script>
+</body>
+</html>
