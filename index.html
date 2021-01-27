@@ -21,99 +21,36 @@
 </script>
 <!-- 'SyntaxHighlighter' additions END -->
 <style id="compiled-css" type="text/css">
-textarea {
-	top:0;
-	width: 50%;
-	height: 45%;
-	border: 3px solid #cccccc;
-	padding: 5px;
-	font-family: Tahoma, sans-serif;
-	background-image: url(bg.gif);
-	background-position: bottom right;
-	background-repeat: no-repeat;
-
-    border: 1px black solid;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        -o-border-radius: 8px;
-        -ms-border-radius: 8px;
-        -khtml-border-radius: 8px;
-        border-radius: 8px;
-		
-}
-
-
-.prettyprint {
-        width: 47%;
-		max-height:45%;
-        margin: 1em auto;
-        padding: 1em;
-        white-space: pre-wrap;
-		font-size:16px;
-		overflow-y: scroll;
-		
-        background-color: #000;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        -o-border-radius: 8px;
-        -ms-border-radius: 8px;
-        -khtml-border-radius: 8px;
-        border-radius: 8px;
-		color: white;
-}
-.syntaxhighlighter {
-  width: 100%;
-  height: auto;
-  max-height:300px;
-  overflow-y: scroll !important;
-  overflow-x: scroll !important;
-  margin: 1em 0 1em 0 !important;
-  position: relative !important;
-  font-size: 1em !important;
-}
-
-html, body {
-height: 97%;
-width: 97%;
-}
-table {
-height: 97%;
-width: 97%;
-}
-@media only screen and (max-width: 600px) {
-
-.prettyprint {
-        width: 97%;
-		}
-}
-
-        #wrapper{border:1px solid green;position:relative;
-        height:45%;width:100%;margin:15px auto}
-        #wrapper::before {
-        content:"Masukan Data";text-transform: uppercase;left:0px;
-        position:absolute;top:-18px;font-size:16px;color:green; }
+textarea {top:0;width: 50%;height: 45%;border: 3px solid #cccccc;padding: 5px;font-family: Tahoma, sans-serif;background-image: url(bg.gif);background-position: bottom right;background-repeat: no-repeat;border: 1px black solid;-moz-border-radius: 8px;-webkit-border-radius: 8px;-o-border-radius: 8px;-ms-border-radius: 8px;-khtml-border-radius: 8px;border-radius: 8px;}.prettyprint {width: 47%;max-height:45%;margin: 1em auto;padding: 1em;white-space: pre-wrap;font-size:16px;overflow-y: scroll;background-color: #000;-moz-border-radius: 8px;-webkit-border-radius: 8px;-o-border-radius: 8px;-ms-border-radius: 8px;-khtml-border-radius: 8px;border-radius: 8px;color: white;}.syntaxhighlighter {width: 100%;height: auto;max-height:300px;overflow-y: scroll !important;overflow-x: scroll !important;margin: 1em 0 1em 0 !important;position: relative !important;font-size: 1em !important;}html, body {height: 97%;width: 97%;}table {height: 97%;width: 97%;}@media only screen and (max-width: 600px) {.prettyprint {width: 97%;}}#wrapper{border:1px solid green;position:relative;height:45%;width:100%;margin:15px auto}#wrapper::before {content:"Masukan Data";text-transform: uppercase;left:0px;position:absolute;top:-18px;font-size:16px;color:green;}
 </style>
 </head>
 <body>
 <div id="wrapper">
 <textarea id="txt1">
 <!-- detail -->
-Image#>
-deskripsi#>
-author_name#>
-persiapan#>
-lama memasak#>
-porsi#>
-Hidangan Pembuka - Sop - Hidangan Pokok - Hidangan Penutup#>
-Asal Masakan#>
-kalori#>
+image#>
+author#>
+judul#>
+description#>
+keywords#>
+prepTime#>
+cookTime#>
+recipeYield#>
+recipeCuisine#>
+recipeCategory#>
+calories#>
+fatContent#>0 grams fat
+suitableForDiet#>https://schema.org/LowFatDiet
+userInteractionCount#>12
+<!-- end detail -->
 
 <!-- bahan-bahan -->
 masukan list bahan disini
+<!-- end bahan-bahan -->
 
 <!-- instruksi -->
 content instruksi disini
-<!-- akhiri instruksi --></textarea>
+<!-- end instruksi --></textarea>
 </div>
 
 
@@ -128,110 +65,95 @@ removeBlankLine()
 //replace();
 //removeBlankLine()
 
-function splitLines(text) {
-	var number = 0;
-	lines = text.split('\n');
-	var action;
-	var temp = '';
-	var detailtemp = '';
-	var bahantemp = '';
-	var instruksitemp = '';
-	var firstkeyword = '';
-	var keywordstemp = '';
-	for(var i = 0;i < lines.length;i++){
-		// /* get this */ var matches = lines[i].match(/\/\*\s*(.*?)\*\//);
-		var matches = lines[i].match(/<!--(.*?)-->/);
-		if (matches && matches[1].trim() === 'detail') {
-			//alert(matches[1]);
-			action = 'detail';
-			detailtemp += '<!-- detail -->\n';
-		}else if(matches && matches[1].trim() === 'bahan-bahan'){
-			action = 'bahan-bahan';
-			bahantemp += '\n<!-- bahan-bahan -->\n';
-		}else if(matches && matches[1].trim() === 'instruksi'){
-			var step = 0;
-			action = 'instruksi';
-			instruksitemp += '\n\n<!-- instruksi -->\n';
-			instruksitemp +=	`<ul>`;
-		}else if(matches && matches[1].trim() === 'akhiri instruksi'){
-			instruksitemp += `</li></ul>`;
-			instruksitemp += '\n\n<!-- akhiri instruksi -->\n';
-		}else{
-			if(action === 'detail'){
-				deta = lines[i].split('#>')[1].trim();
-				detailtemp += detail(i, deta);
-			}else if(action === 'bahan-bahan'){
-				bahantemp += '* '+lines[i]+'\n';
-				keywordstemp += lines[i]+'. ';
-			}else if(action === 'instruksi'){
-				if(step===0){
-					instruksitemp += `<li class='howToSection'>`+lines[i]+`</li>
-										<li class='howToStep'>`;
-					firstkeyword += lines[i];
-				}else{
-					instruksitemp += '# <p id="step_name">Langkah '+step+'</p><p id="step_text">'+lines[i]+'</p>\n';
-				}
-				step = step+1;
-			}
-		}
-	}
-	temp += detailtemp+'\n';
-	temp += beauty(createList(bahantemp))+'\n\n';
-	temp += beauty(createList(instruksitemp))+'\n\n';
-	temp += '\n<p id="keywords">'+firstkeyword+' '+keywordstemp+'</p>';
-	return temp;
-}
-
-function detail(i, text) {
-	var arr = ['','image','description','author_name','prepTime','cookTime','recipeYield','recipeCategory','recipeCuisine','calories'];
-	if(i === 1){
-		text = '<img id="'+arr[i]+'" src="'+text+'" />\n';
-	}else if(i <= 9){
-		text = '<p id="'+arr[i]+'">'+text+'</p>\n';
-	}
-	return text;
-}
-
-
 function removeBlankLine() {
 	var res = txt1.value.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").replace(/^\s*(?:[\dA-Z]+\.|[a-z]\)|•)\s+/gm,"");
 	var temp = splitLines(res); // loop lines
 	//var temp = replace(temp); // create list bahan
 	var regex1 = new RegExp('<', 'g');
 	var regex2 = new RegExp('>', 'g');
-	result = "<pre class='brush: java; highlight: [1,2,3,4,5,6,7,8,9,10]'>" + temp.replace(regex1,'&lt;').replace(regex2,'&gt;')+"</pre>";
+	//var doc = new DOMParser().parseFromString(temp, "text/html");
+	result = "<pre class='brush: java;'>" + temp.replace(regex1,'&lt;').replace(regex2,'&gt;')+"</pre>";
 	txt2.innerHTML = result;
 	SyntaxHighlighter.highlight();
 }
 
 
-function createList(temp) {
-  rep = temp.
-    replace (/\*\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul id='recipeIngredient'><li>\n$1</li></ul>").
-    replace ( /#\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul><li>\n$1</li></ul>").
-    replace (/(<\/ul>\n?<ul id='recipeIngredient'>|<\/ul>\n?<ul>)/g, "");
-	
-	return rep;
-/*
-  txt2.innerHTML = txt1.value.
-    replace (/\*\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul><li>\n$1</li></ul>").
-    replace ( /#\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ol><li>\n$1</li></ol>").
-    replace (/(<\/ul>\n?<ul>|<\/ol>\n?<ol>)/g, "");
-*/
+function splitLines(text) {
+	var number = 0;
+	var instruksinum = 0;
+	var temp;
+	var val = '';
+	var instruksi = '';
+	var obj = {};
+	var author,judul,datePublished,totalTime,keywords,suitableForDiet,userInteractionCount,image,prepTime,cookTime,recipeYield,calories,fatContent,recipeCuisine,recipeCategory,description;
+	var action;
+	lines = text.split('\n');
+	for(var i = 0;i < lines.length;i++){
+		// /* get this */ var matches = lines[i].match(/\/\*\s*(.*?)\*\//);
+		var matches = lines[i].match(/<!--(.*?)-->/);
+		if (matches && matches[1].trim() === 'detail') {
+			action = 'detail';
+		}else if(matches && matches[1].trim() === 'end detail'){
+			action = '';
+		}else if(matches && matches[1].trim() === 'bahan-bahan'){
+			action = 'bahan-bahan';
+			var bahan = '';
+			var keywordstemp = '';
+		}else if(matches && matches[1].trim() === 'end bahan-bahan'){
+			action = '';
+			keywords = keywordstemp.split(' ').slice(0,55).join(' ');
+			obj['bahan'] = bahan;
+			obj['keywords'] = keywords;
+		}else if(matches && matches[1].trim() === 'instruksi'){
+			action = 'instruksi';
+			var instruksiline = 0;
+			instruksinum++
+			var instruksitemp = `<div itemprop="recipeInstructions" itemscope itemtype="https://schema.org/HowToSection">`;
+		}else if(matches && matches[1].trim() === 'end instruksi'){
+			action = '';
+			 instruksitemp += `</div></div><br />`;
+			 instruksi += instruksitemp;
+		}else{
+			if(action === 'detail'){
+				val = detail(i, lines[i])
+				obj[lines[i].split('#>')[0].trim()] = val;
+			}else if(action === 'bahan-bahan'){
+				bahan += `<li itemprop="recipeIngredient">`+lines[i]+`</li>`;
+				keywordstemp += lines[i].split(' ').slice(0,3).join(' ')+'. ';
+			}else if(action === 'instruksi'){
+				if(instruksiline === 0){
+					instruksitemp += `<span itemprop="name" id="howToSection" class="card-item-title howToSection">`+lines[i]+`</span>
+										<div id="howToStep" class="ac-container">`;
+				}else{
+					instruksitemp += `
+									<div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+										<input id="step-`+instruksinum+`-`+instruksiline+`" name="accordion-`+instruksinum+`" type="radio" />
+										<meta itemprop="name" content="`+lines[i].split(' ').slice(0,3).join(' ')+`"/>
+										<label for="step-`+instruksinum+`-`+instruksiline+`">
+											<b>Langkah `+instruksiline+`</b>
+										</label>
+										<article class="ac-medium">
+											<p itemprop="text">`+lines[i]+`</p>
+										</article>
+									</div>`;
+				}
+				instruksiline++;
+			}
+		}
+	}
+	obj['instruksi'] = instruksi;
+	temp = template(obj);
+	return beauty(temp);
 }
 
-function instruksi(temp) {
-  rep = temp.
-    replace (/\^\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ul><li>\n$1</li></ul>").
-    replace ( /#\s*(([^\n]*(\n|$))*?)(?=\n|#|\*|<[uo]l>|$)/g, "<ol><li>\n$1</li></ol>").
-    replace (/(<\/ul>\n?<ul id='recipeIngredient'>|<\/ol>\n?<ol>)/g, "");
-	
-	return rep;
-}
-
-function customLine(number){
-	var number1 = number+". image:";
-	document.getElementById("number"+number).innerHTML = number1;
+function detail(i, text) {
+	//var arr = ['','image','description','author_name','prepTime','cookTime','recipeYield','recipeCategory','recipeCuisine','calories'];
+	var key = text.split('#>')[0].trim();
+	var val = '';
+	if(text.split('#>')[1].trim() != ''){
+		val = text.split('#>')[1].trim();
+	}
+	return val;
 }
 
 function beauty(text){
@@ -249,6 +171,93 @@ function beauty(text){
 	return text;
 }
 
+function template(obj){
+	var datePublished = (new Date()).toISOString().split('T')[0];
+	var totaltime = parseInt(obj.prepTime)+parseInt(obj.cookTime);
+	var recipeYield = obj.recipeYield;
+	if(obj.recipeYield != ''){var recipeYieldNumberArray = recipeYield.match(/\d+/g).map(Number);}else{var recipeYieldNumberArray = ['']}
+	
+	var rateArr = [3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6];
+	var timestamp = Date.parse(datePublished);
+	function getEvenDaysDiff(d) {
+	  let now = new Date();
+	  now.setHours(0,0,0,0);
+	  let then = new Date(d);
+	  then.setHours(0,0,0,0);
+	  return Math.round((now - then) / 8.64e7);
+	}
+	var x = (getEvenDaysDiff(datePublished)+12+timestamp);
+	var quotient = Math.floor(x/rateArr.length);
+	var remainder = x % rateArr.length;			
+		if(quotient % 2 === 0 && remainder !== 0){
+			remainder = rateArr.length-remainder;
+		}
+	var ratingValue= rateArr[remainder];
+	var ratingCount= getEvenDaysDiff(datePublished)+12;
+	var ratingValueRound = Math.round(ratingValue);
+	var star = '';
+		for(i = 1; i <= 5; i++){
+			if(i <= ratingValueRound){
+				star += '<span class="fa fa-star checked" id="rate"></span>';
+			}else{
+				star += '<span class="fa fa-star" id="rate"></span>';
+			}
+		}
+	var ratingTemp = `<hr id="rate"/>
+						<span class="heading" id="rate">Rating</span>
+							`+star+`
+						<p id="rate"><span itemprop="ratingValue">`+ratingValue+`</span> average based on <span itemprop="reviewCount">`+ratingCount+`</span> reviews.</p>
+						<hr id="rate"/>`;
+	var template = `
+	<div itemscope itemtype="https://schema.org/Recipe">
+		<noscript><img itemprop="image" id='imgs' alt='`+obj.judul+`' src='`+obj.image+`' title='`+obj.judul+`' /></noscript>
+			<span id="prepTime" class="labelx prepTime"> <i class="fab fa-algolia"></i><meta itemprop="prepTime" content="PT`+obj.prepTime+`M"/> Persiapan: `+obj.prepTime+` menit </span>
+			<span id="cookTime" class="labelx cookTime"> <i class="fab fa-algolia"></i><meta itemprop="cookTime" content="PT`+obj.cookTime+`M"/> Memasak: `+obj.cookTime+` menit </span>
+			<span id="recipeYield" class="labelx recipeYield"> <i class="fab fa-algolia"></i><meta itemprop="recipeYield" content="`+recipeYieldNumberArray[0]+`"> `+obj.recipeYield+` </span>
+			<span itemprop="recipeCuisine" id="recipeCuisine" class="labelx recipeCuisine"> <i class="fas fa-globe"></i> `+obj.recipeCuisine+` </span>
+			<span itemprop="recipeCategory" id="recipeCategory" class="labelx recipeCategory"> <i class="fas fa-wine-glass-alt"></i> `+obj.recipeCategory+` </span>
+			<div itemprop="nutrition" itemscope itemtype="https://schema.org/NutritionInformation">
+			<span id="calories" class="labelx calories" itemprop="calories"><i class="fas fa-fill-drip"></i> `+obj.calories+`</span>,
+			<meta itemprop="fatContent" content="`+obj.fatContent+`"/>
+			</div>
+
+			<input class="read-more-checker" id="read-more-checker" type="checkbox" />
+			<div class="limited l-150">
+				<p itemprop="description" id="description">`+obj.description+`</p>
+				<div class="bottom"></div>
+			</div>
+			<label class="read-more-button" for="read-more-checker"></label><br/>
+
+		<div id="card-items">
+			<span class="card-item-title">Bahan-Bahan:</span>
+			<ul id="ingredient" class="checkmark">
+				`+beauty(obj.bahan)+`
+			</ul>
+		</div>
+		<br />
+		`+obj.instruksi+`
+		
+		<meta itemprop="name" content="`+obj.judul+`"/>
+		<meta itemprop="datePublished" content="`+datePublished+`"/>
+		<meta itemprop="totalTime" content="PT`+totaltime+`M"/>
+		<meta itemprop="keywords" content="`+obj.keywords+`"/>
+		<link itemprop="suitableForDiet" href="`+obj.suitableForDiet+`" />
+		<div itemprop="interactionStatistic" itemscope itemtype="https://schema.org/InteractionCounter">
+			<meta itemprop="interactionType" content="https://schema.org/CommentAction" />
+			<meta itemprop="userInteractionCount" content="`+ratingCount+`" />
+		</div>  
+		<hr id="rate" />
+		<center itemprop="author" itemscope itemtype="https://schema.org/Person">
+			<p>Oleh:</p>
+			<h3 id="author_name" itemprop="name">`+obj.author+`</h3>
+		</center>
+		
+		<div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+			`+ratingTemp+`
+		</div>
+	</div>`;
+	return template;
+}
 </script>
 </body>
 </html>
