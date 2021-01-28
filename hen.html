@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Random post Entry</title>
+<meta content='width=device-width, initial-scale=1' name='viewport'>
+<style scoped="scoped" type="text/css">
+BODY {
+  background-color:#eee;
+  max-width:1000px;
+  padding:0;
+  margin:auto;
+  font: normal 16px Arial, sans-serif;
+}
+.list-entries ul, .list-entries li {padding:0}
+ /* Multi Recent Post */
+.post-body *,.post-body *:after,.post-body *:before{box-sizing:initial;-webkit-box-sizing:initial;-moz-box-sizing:initial;}
+.list-entries{display:table;background:#fdfdfd;margin:1.5% 1%;width:31.3%;float:left;font-size:80%;}
+.list-entries ul,.list-entries li{margin:0;list-style:none;}
+#feed-list-container ul li{background:#fdfdfd;padding:10px;line-height:normal;border:1px solid #dcdcdc;border-top:0;transition:all .3s;}
+#feed-list-container ul li:hover{background:#fff;}
+#feed-list-container ul li:last-child{border-bottom:0;}
+.list-entries .main-title{padding:0;overflow:hidden;}
+.list-entries .main-title h4{position:relative;display:block;font:inherit;font-weight:700;font-family:Roboto;padding:1em 1.5em;background-color:#FF3349;color:#fff;margin:0;line-height:normal;font-size:120%;margin-top:0!important}
+.list-entries .main-title h4:after{display:inline-block;content:"🍣";font-size:17.4px;font-style:normal;background-color:#FE263D;color:#fff;top:0;right:0;padding:1em 1.25em;position:absolute;font-weight:400}
+.list-entries .title a{font-size:13px;text-decoration:none;line-height:.5em;color:#333;font-weight:700;transition:all .3s;}
+.list-entries .title a:hover{color:#4f93c5}
+.list-entries img,.list-entries .fake-img{border:none;background-color:#333;margin:0 1em 0 0;padding:0;float:left}
+.list-entries .summary{overflow:hidden;color:#999}
+.list-entries .more-link{border-bottom:none;}
+.list-entries .more-link a{display:block;line-height:2em;height:2em;overflow:hidden;text-decoration:none;background-color:#444;padding:1em 1.5em;position:relative;font-weight:400;color:#fff;transition:all .3s;}
+.list-entries .more-link a:hover{background-color:#f97e76;color:#fff;}
+.list-entries .more-link a:after{display:inline-block;content:"➤";font-family:fontAwesome;font-size:16.4px;font-style:normal;background-color:#333;color:#ccc;top:0;right:0;padding:1em 1.25em;position:absolute;font-weight:400;transition:all .3s;}
+.list-entries .more-link a:hover:after{background-color:#ea726a;color:#fff;}
+.widget .post-body ul, .widget .post-body ol {position:relative;}
+@media (max-width:640px){
+.list-entries {width:100%;}
+.list-entries{margin:2.5% 1%;}}
+
+</style>
+</head>
+<body>
+<div id="feed-list-container">
+</div>
+<div style="clear:both;">
+</div>
+<script type="text/javascript">
+let params = (new URL(document.location)).searchParams;
+let label = params.get("label").split(',');
+let num = params.get("num");
+var multiFeed = {
+    feedsUri: [
+        {
+            name: label[0],
+            url: "https://www.resepso.com/",
+            tag: label[0]
+        },
+        {
+            name: label[1],
+            url: "https://www.resepso.com/",
+            tag: label[1]
+        }
+],
+    numPost: num,
+    showThumbnail: true,
+    showSummary: false,
+    summaryLength: 0,
+    titleLength: "auto",
+    thumbSize: 72,
+    containerId: "feed-list-container",
+    readMore: {
+        text: "Selengkapnya",
+        endParam: "?max-results=5"
+    }
+};
+</script>
+<script type="text/javascript">
+var mf_defaults = {
+    feedsUri: [{
+        name: "Featured",
+        url: "https://www.resepso.com/",
+        tag: "Recipe"
+    }, {
+        name: "Humor",
+        url: "https://www.resepso.com/",
+        tag: "Humor"
+    }],
+    numPost: 4,
+    showThumbnail: true,
+    showSummary: true,
+    summaryLength: 80,
+    titleLength: "auto",
+    thumbSize: 72,
+    newTabLink: false,
+    containerId: "feed-list-container",
+    listClass: "list-entries",
+    readMore: {
+        text: "More",
+        endParam: "?max-results=20"
+    },
+    autoHeight: false,
+    current: 0,
+    onLoadFeed: function(a) {},
+    onLoadComplete: function() {},
+    loadFeed: function(c) {
+        var d = document.getElementsByTagName("head")[0],
+            a = document.getElementById(this.containerId),
+            b = document.createElement("script");
+        b.type = "text/javascript";
+        b.src = this.feedsUri[c].url + "/feeds/posts/summary" + (this.feedsUri[c].tag ? "/-/" + this.feedsUri[c].tag : "") + "?alt=json-in-script&max-results=" + this.numPost + "&callback=listEntries";
+        d.appendChild(b)
+    }
+};
+for (var i in mf_defaults) {
+    mf_defaults[i] = (typeof(multiFeed[i]) !== undefined && typeof(multiFeed[i]) !== "undefined") ? multiFeed[i] : mf_defaults[i]
+}
+
+function listEntries(q) {
+    var p = q.feed.entry,
+        c = mf_defaults,
+        h = document.getElementById(c.containerId),
+        a = document.createElement("div"),
+        d = "<ul>",
+        l = c.feedsUri.length,
+        n, k, m, g;
+    for (var f = 0; f < c.numPost; f++) {
+        if (f == p.length) {
+            break
+        }
+        n = (c.titleLength !== "auto") ? p[f].title.$t.substring(0, c.titleLength) + (c.titleLength < p[f].title.$t.length ? "&hellip;" : "") : p[f].title.$t;
+        m = ("summary" in p[f]) ? p[f].summary.$t.replace(/<br ?\/?>/g, " ").replace(/<.*?>/g, "").replace(/[<>]/g, "") : "";
+        m = (c.summaryLength < m.length) ? m.substring(0, c.summaryLength) + "&hellip;" : m;
+        g = ("media$thumbnail" in p[f]) ? '<img src="' + p[f].media$thumbnail.url.replace(/\/s72(\-c)?\//, "/s" + c.thumbSize + "-c/") + '" style="width:' + c.thumbSize + "px;height:" + c.thumbSize + 'px;" width="72" height="72">' : '<span class="fake-img" style="width:' + c.thumbSize + "px;height:" + c.thumbSize + 'px;"></span>';
+        for (var e = 0, b = p[f].link.length; e < b; e++) {
+            k = (p[f].link[e].rel == "alternate") ? p[f].link[e].href : "#"
+        }
+        d += '<li><div width="72" height="72" class="inner"' + (!c.autoHeight ? ' style="height:' + c.thumbSize + 'px;overflow:hidden;"' : "") + ">";
+        d += (c.showThumbnail) ? g : "";
+        d += '<div class="title"><a href="' + k + '"' + (c.newTabLink ? ' target="_blank"' : "") + ">" + n + "</a></div>";
+        d += '<div class="summary">';
+        d += "<span" + (!c.showSummary ? ' style="display:none;"' : "") + ">";
+        d += (c.showSummary) ? m : "";
+        d += "</span></div>";
+        d += '<span style="display:block;clear:both;"></span></div></li>'
+    }
+    d += "</ul>";
+    d += '<div class="more-link"><a href="' + c.feedsUri[c.current].url.replace(/\/$/, "") + "/search/label/" + c.feedsUri[c.current].tag + c.readMore.endParam + '"' + (c.newTabLink ? ' target="_blank"' : "") + ">" + c.readMore.text + "</a></div>";
+    a.className = c.listClass;
+    a.innerHTML = '<div class="main-title"><h4>' + c.feedsUri[c.current].name + "</h4></div>" + d;
+    h.appendChild(a);
+    c.onLoadFeed(c.current);
+    if ((c.current + 1) < l) {
+        c.loadFeed(c.current + 1)
+    }
+    if ((c.current + 1) == l) {
+        c.onLoadComplete()
+    }
+    c.current++
+}
+mf_defaults.loadFeed(0);
+</script>
+</body>
+</html>
