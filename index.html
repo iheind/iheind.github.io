@@ -30,7 +30,6 @@ textarea {top:0;width: 50%;height: 45%;border: 3px solid #cccccc;padding: 5px;fo
 <!-- detail -->
 image#>
 author#>
-judul#>
 description#>
 keywords#>
 prepTime#>
@@ -41,7 +40,6 @@ recipeCategory#>
 calories#>
 fatContent#>0 grams fat
 suitableForDiet#>https://schema.org/LowFatDiet
-userInteractionCount#>12
 <!-- end detail -->
 
 <!-- bahan-bahan -->
@@ -209,7 +207,6 @@ function template(obj){
 						<p id="rate"><span itemprop="ratingValue">`+ratingValue+`</span> average based on <span itemprop="reviewCount">`+ratingCount+`</span> reviews.</p>
 						<hr id="rate"/>`;
 	var template = `
-	<div itemscope itemtype="https://schema.org/Recipe">
 		<noscript><img itemprop="image" id='imgs' alt='`+obj.judul+`' src='`+obj.image+`' title='`+obj.judul+`' /></noscript>
 			<span id="prepTime" class="labelx prepTime"> <i class="fab fa-algolia"></i><meta itemprop="prepTime" content="PT`+obj.prepTime+`M"/> Persiapan: `+obj.prepTime+` menit </span>
 			<span id="cookTime" class="labelx cookTime"> <i class="fab fa-algolia"></i><meta itemprop="cookTime" content="PT`+obj.cookTime+`M"/> Memasak: `+obj.cookTime+` menit </span>
@@ -237,15 +234,10 @@ function template(obj){
 		<br />
 		`+obj.instruksi+`
 		
-		<meta itemprop="name" content="`+obj.judul+`"/>
-		<meta itemprop="datePublished" content="`+datePublished+`"/>
 		<meta itemprop="totalTime" content="PT`+totaltime+`M"/>
 		<meta itemprop="keywords" content="`+obj.keywords+`"/>
 		<link itemprop="suitableForDiet" href="`+obj.suitableForDiet+`" />
-		<div itemprop="interactionStatistic" itemscope itemtype="https://schema.org/InteractionCounter">
-			<meta itemprop="interactionType" content="https://schema.org/CommentAction" />
-			<meta itemprop="userInteractionCount" content="`+ratingCount+`" />
-		</div>  
+		
 		<hr id="rate" />
 		<center itemprop="author" itemscope itemtype="https://schema.org/Person">
 			<p>Oleh:</p>
@@ -254,8 +246,7 @@ function template(obj){
 		
 		<div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 			`+ratingTemp+`
-		</div>
-	</div>`;
+		</div>`;
 	return template;
 }
 </script>
