@@ -32,7 +32,6 @@ image#>
 judul#>
 author#>
 description#>
-keywords#>
 prepTime#>
 cookTime#>
 recipeYield#>
@@ -205,7 +204,7 @@ function template(obj){
 	var ratingTemp = `<hr id="rate"/>
 						<span class="heading" id="rate">Rating</span>
 							`+star+`
-						<p id="rate"><span itemprop="ratingValue">`+ratingValue+`</span> average based on <span itemprop="reviewCount">`+ratingCount+`</span> reviews.</p>
+						<p id="rate"><meta itemprop="bestRating" content="5"/><span itemprop="ratingValue">`+ratingValue+`</span> average based on <span itemprop="reviewCount">`+ratingCount+`</span> reviews.</p>
 						<hr id="rate"/>`;
 	var template = `
 		<noscript><img itemprop="image" id='imgs' alt='`+obj.judul+`' src='`+obj.image+`' title='`+obj.judul+`' /></noscript>
