@@ -29,6 +29,7 @@ textarea {top:0;width: 50%;height: 45%;border: 3px solid #cccccc;padding: 5px;fo
 <textarea id="txt1">
 <!-- detail -->
 image#>
+judul#>
 author#>
 description#>
 keywords#>
@@ -117,7 +118,7 @@ function splitLines(text) {
 				obj[lines[i].split('#>')[0].trim()] = val;
 			}else if(action === 'bahan-bahan'){
 				bahan += `<li itemprop="recipeIngredient">`+lines[i]+`</li>`;
-				keywordstemp += lines[i].split(' ').slice(0,3).join(' ')+'. ';
+				keywordstemp += lines[i].split(' ').slice(0,3).join(' ')+', ';
 			}else if(action === 'instruksi'){
 				if(instruksiline === 0){
 					instruksitemp += `<span itemprop="name" id="howToSection" class="card-item-title howToSection">`+lines[i]+`</span>
