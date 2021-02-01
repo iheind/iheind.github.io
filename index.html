@@ -245,7 +245,7 @@ function template(obj){
 			<h3 id="author_name" itemprop="name">`+obj.author+`</h3>
 		</center>
 		
-		<div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+		<div id="aggregateRating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 			`+ratingTemp+`
 		</div>`;
 	return template;
