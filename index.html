@@ -139,6 +139,30 @@ function splitLines(text) {
 			}
 		}
 	}
+	
+	if(instruksinum === 1){
+	var addinst = `
+		<p style='font-size:12px'><em>Semoga resep ini bermanfaat bagi Anda. Dengan resep `+obj.judul+` ini kami berharap Anda bisa menjadi koki yang hebat. Selamat menikmati.</em></p>
+		<div itemprop="recipeInstructions" id="howToSection" itemscope itemtype="https://schema.org/HowToSection">
+		  <input itemprop="name" type="hidden" class="howToSection" value="Cara Menyajikan Putri Salju Mete" />
+		  <div id="howToStep" class="ac-container">
+			<div itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+			  <span id="step-2-1" />
+			  <meta itemprop="name" id="step" content="Semoga bermanfaat" />
+			  <meta itemprop="text" content="Semoga resep `+obj.judul+` ini bermanfaat bagi Anda" />
+			</div>
+			<div id="step-2-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+			  <meta itemprop="name" id="step" content="Selamat menikmati" />
+			  <meta itemprop="text" content="Selamat menikmati P`+obj.judul+` buatan anda." />
+			</div>
+			<div id="step-2-3" itemprop="itemListElement" itemscope itemtype="https://schema.org/HowToStep">
+			  <meta itemprop="name" id="step" content="Menjadi koki hebat" />
+			  <meta itemprop="text" content="Dengan resep `+obj.judul+` ini kami berharap Anda bisa menjadi koki yang hebat." />
+			</div>
+		</div>
+		</div>`;
+	instruksi += addinst;
+	}
 	obj['instruksi'] = instruksi;
 	temp = template(obj);
 	return beauty(temp);
