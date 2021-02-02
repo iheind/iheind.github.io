@@ -83,6 +83,7 @@ function splitLines(text) {
 	var val = '';
 	var instruksi = '';
 	var bahan = '';
+	var keywordstemp = '';
 	var obj = {};
 	var author,judul,datePublished,totalTime,keywords,suitableForDiet,userInteractionCount,image,prepTime,cookTime,recipeYield,calories,fatContent,recipeCuisine,recipeCategory,description;
 	var action;
@@ -97,15 +98,11 @@ function splitLines(text) {
 		}else if(matches && matches[1].trim() === 'bahan-bahan'){
 			action = 'bahan-bahan';
 			var bahanline = 0;
-			var keywordstemp = '';
 		}else if(matches && matches[1].trim() === 'end bahan-bahan'){
 			action = '';
 			bahan += `</ul>
 						</div>
 						<br id=''/>`;
-			keywords = keywordstemp.split(' ').slice(0,55).join(' ');
-			//obj['bahan'] = bahan;
-			obj['keywords'] = keywords;
 		}else if(matches && matches[1].trim() === 'instruksi'){
 			action = 'instruksi';
 			var instruksiline = 0;
@@ -174,6 +171,9 @@ function splitLines(text) {
 		</div>`;
 	instruksi += addinst;
 	}
+	
+	keywords = keywordstemp.split(' ').slice(0,55).join(' ');
+	obj['keywords'] = keywords;
 	obj['bahan'] = bahan;
 	obj['instruksi'] = instruksi;
 	temp = template(obj);
