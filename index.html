@@ -82,6 +82,7 @@ function splitLines(text) {
 	var temp;
 	var val = '';
 	var instruksi = '';
+	var bahan = '';
 	var obj = {};
 	var author,judul,datePublished,totalTime,keywords,suitableForDiet,userInteractionCount,image,prepTime,cookTime,recipeYield,calories,fatContent,recipeCuisine,recipeCategory,description;
 	var action;
@@ -95,12 +96,15 @@ function splitLines(text) {
 			action = '';
 		}else if(matches && matches[1].trim() === 'bahan-bahan'){
 			action = 'bahan-bahan';
-			var bahan = '';
+			var bahanline = 0;
 			var keywordstemp = '';
 		}else if(matches && matches[1].trim() === 'end bahan-bahan'){
 			action = '';
+			bahan += `</ul>
+						</div>
+						<br id=''/>`;
 			keywords = keywordstemp.split(' ').slice(0,55).join(' ');
-			obj['bahan'] = bahan;
+			//obj['bahan'] = bahan;
 			obj['keywords'] = keywords;
 		}else if(matches && matches[1].trim() === 'instruksi'){
 			action = 'instruksi';
@@ -116,8 +120,15 @@ function splitLines(text) {
 				val = detail(i, lines[i])
 				obj[lines[i].split('#>')[0].trim()] = val;
 			}else if(action === 'bahan-bahan'){
-				bahan += `<li itemprop="recipeIngredient">`+lines[i]+`</li>`;
-				keywordstemp += lines[i].split(' ').slice(0,3).join(' ')+', ';
+				if(bahanline === 0){
+				bahan += `<div id="card-items">
+							<span class="card-item-title">`+lines[i]+`</span>
+							<ul id="ingredient" class="checkmark">`;
+				}else{
+					bahan += `<li itemprop="recipeIngredient">`+lines[i]+`</li>`;
+					keywordstemp += lines[i].split(' ').slice(0,3).join(' ')+', ';
+				}
+				bahanline++;
 			}else if(action === 'instruksi'){
 				if(instruksiline === 0){
 					instruksitemp += `<span itemprop="name" id="howToSection" class="card-item-title howToSection">`+lines[i]+`</span>
@@ -163,6 +174,7 @@ function splitLines(text) {
 		</div>`;
 	instruksi += addinst;
 	}
+	obj['bahan'] = bahan;
 	obj['instruksi'] = instruksi;
 	temp = template(obj);
 	return beauty(temp);
