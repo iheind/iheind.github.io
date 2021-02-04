@@ -25,6 +25,30 @@ textarea {top:0;width: 50%;height: 45%;border: 3px solid #cccccc;padding: 5px;fo
 </style>
 </head>
 <body>
+<script type="text/javascript">        
+var label= {};      
+var post= {};   
+function mbtlist(json) {  
+
+for (var k = 0; k < json.feed.category.length; k++)       
+{
+var key = json.feed.category[k].term.toLowerCase();
+var value = '<a href="/search/label/'+json.feed.category[k].term+'" alt="'+json.feed.category[k].term+'">'+json.feed.category[k].term+'</a>';
+label[key] =  value;       
+}
+
+for (var k = 0; k < json.feed.entry.length; k++)       
+{
+var key = json.feed.entry[k].title.$t.toLowerCase();
+var value = '<a href="'+json.feed.entry[k].link[4].href+'" alt="'+json.feed.entry[k].title.$t+'">'+json.feed.entry[k].title.$t+'</a>';
+post[key] =  value;  
+}
+
+console.log(label);       
+}       
+</script>
+<script type="text/javascript" src="https://www.resepso.com/feeds/posts/default?alt=json-in-script&callback=mbtlist"></script>
+
 <div id="wrapper">
 <textarea id="txt1">
 <!-- detail -->
@@ -176,6 +200,7 @@ function splitLines(text) {
 	obj['keywords'] = keywords;
 	obj['bahan'] = bahan;
 	obj['instruksi'] = instruksi;
+	obj['description'] = posts(obj.description);
 	temp = template(obj);
 	return beauty(temp);
 }
@@ -256,7 +281,7 @@ function template(obj){
 
 			<input class="read-more-checker" id="read-more-checker" type="checkbox" />
 			<div class="limited l-150">
-				<p itemprop="description" id="description">`+obj.description+`</p>
+				<p itemprop="description" id="description"><b>Resepso.com -</b> `+obj.description+`</p>
 				<div class="bottom"></div>
 			</div>
 			<label class="read-more-button" for="read-more-checker"></label>
@@ -279,6 +304,46 @@ function template(obj){
 			`+ratingTemp+`
 		</div>`;
 	return template;
+}
+      
+function posts(content){
+	content = content.toLowerCase();
+    var pattern = [],
+        key;
+    for (key in post) {
+        // Sanitize the key, and push it in the list
+        pattern.push(key.replace(/([[^$.|?*+(){}])/g, '\\$1'));
+    }
+    pattern = "(?:" + pattern.join(")|(?:") + ")"; //Create pattern
+    pattern = new RegExp(pattern, "g");
+
+    // Walk through the string, and replace every occurrence of the matched tokens
+    content = content.replace(pattern, function(full_match){
+        return post[full_match];
+    });
+	var count = (content.match(/<\/\a>/g) || []).length;
+	if(count === 0){
+		content = labels(content);
+	}
+    return content;
+}
+function labels(content2){
+	content2 = content2.toLowerCase();
+    var pattern = [],
+        key;
+    for (key in label) {
+        // Sanitize the key, and push it in the list
+        pattern.push(key.replace(/([[^$.|?*+(){}])/g, '\\$1'));
+    }
+    pattern = "(?:" + pattern.join(")|(?:") + ")"; //Create pattern
+    pattern = new RegExp(pattern, "g");
+
+    // Walk through the string, and replace every occurrence of the matched tokens
+    content2 = content2.replace(pattern, function(full_match){
+        return label[full_match];
+    });
+	
+    return content2;
 }
 </script>
 </body>
