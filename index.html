@@ -307,43 +307,55 @@ function template(obj){
 }
       
 function posts(content){
-	content = content.toLowerCase();
-    var pattern = [],
+    var pattern = [],valuesToRemove=[],
         key;
     for (key in post) {
         // Sanitize the key, and push it in the list
-        pattern.push(key.replace(/([[^$.|?*+(){}])/g, '\\$1'));
+        pattern.push(key);
     }
-    pattern = "(?:" + pattern.join(")|(?:") + ")"; //Create pattern
-    pattern = new RegExp(pattern, "g");
+
+    pattern = new RegExp(`\\b(${pattern.join('|')})\\b`, 'gi');
+    //pattern = new RegExp(`\\b(${pattern.join('|')})\\b(?!.*\\b\\-1\\b)`, 'i');
 
     // Walk through the string, and replace every occurrence of the matched tokens
     content = content.replace(pattern, function(full_match){
-        return post[full_match];
+  		if(valuesToRemove.some(person => person === full_match.toLowerCase())){
+        return full_match
+        } else{
+        valuesToRemove.push(full_match.toLowerCase());
+        return post[full_match.toLowerCase()];
+        }
     });
 	var count = (content.match(/<\/\a>/g) || []).length;
 	if(count === 0){
 		content = labels(content);
 	}
     return content;
+
 }
-function labels(content2){
-	content2 = content2.toLowerCase();
-    var pattern = [],
+function labels(content){
+    var pattern = [],valuesToRemove=[],
         key;
     for (key in label) {
         // Sanitize the key, and push it in the list
-        pattern.push(key.replace(/([[^$.|?*+(){}])/g, '\\$1'));
+        pattern.push(key);
     }
-    pattern = "(?:" + pattern.join(")|(?:") + ")"; //Create pattern
-    pattern = new RegExp(pattern, "g");
+
+    //pattern = new RegExp(`\\b(${pattern.join('|')})\\b`, 'gi');
+	
+    pattern = new RegExp(`\\b(${pattern.join('|')})\\b`, 'gi');
 
     // Walk through the string, and replace every occurrence of the matched tokens
-    content2 = content2.replace(pattern, function(full_match){
-        return label[full_match];
+    content = content.replace(pattern, function(full_match){
+ 		if(valuesToRemove.some(person => person === full_match.toLowerCase())){
+        return full_match
+        } else{
+        valuesToRemove.push(full_match.toLowerCase());
+        return label[full_match.toLowerCase()];
+        }
     });
-	
-    return content2;
+    return content;
+
 }
 </script>
 </body>
