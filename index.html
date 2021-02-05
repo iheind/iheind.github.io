@@ -33,14 +33,14 @@ function mbtlist(json) {
 for (var k = 0; k < json.feed.category.length; k++)       
 {
 var key = json.feed.category[k].term.toLowerCase();
-var value = '<a href="/search/label/'+json.feed.category[k].term+'" alt="'+json.feed.category[k].term+'">'+json.feed.category[k].term+'</a>';
+var value = '<a href="/search/label/'+json.feed.category[k].term+'">'+json.feed.category[k].term+'</a>';
 label[key] =  value;       
 }
 
 for (var k = 0; k < json.feed.entry.length; k++)       
 {
 var key = json.feed.entry[k].title.$t.toLowerCase();
-var value = '<a href="'+json.feed.entry[k].link[4].href+'" alt="'+json.feed.entry[k].title.$t+'">'+json.feed.entry[k].title.$t+'</a>';
+var value = '<a href="'+json.feed.entry[k].link[4].href+'">'+json.feed.entry[k].title.$t+'</a>';
 post[key] =  value;  
 }
 
