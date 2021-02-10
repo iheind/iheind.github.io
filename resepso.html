@@ -21,8 +21,8 @@ BODY {
 #feed-list-container ul li:hover{background:#fff;}
 #feed-list-container ul li:last-child{border-bottom:0;}
 .list-entries .main-title{padding:0;overflow:hidden;}
-.list-entries .main-title h4{position:relative;display:block;font:inherit;font-weight:700;font-family:Roboto;padding:1em 1.5em;background-color:#FF3349;color:#fff;margin:0;line-height:normal;font-size:120%;margin-top:0!important}
-.list-entries .main-title h4:after{display:inline-block;content:"🍣";font-size:17.4px;font-style:normal;background-color:#FE263D;color:#fff;top:0;right:0;padding:1em 1.25em;position:absolute;font-weight:400}
+.list-entries .main-title h4{position:relative;display:block;font:inherit;font-weight:700;font-family:Roboto;padding:1em 1.5em;background-color:#fe7095;color:#fff;margin:0;line-height:normal;font-size:120%;margin-top:0!important}
+.list-entries .main-title h4:after{display:inline-block;content:"🍣";font-size:17.4px;font-style:normal;background-color:#fe7095;color:#fff;top:0;right:0;padding:1em 1.25em;position:absolute;font-weight:400}
 .list-entries .title a{font-size:13px;text-decoration:none;line-height:.5em;color:#333;font-weight:700;transition:all .3s;}
 .list-entries .title a:hover{color:#4f93c5}
 .list-entries img,.list-entries .fake-img{border:none;background-color:#333;margin:0 1em 0 0;padding:0;float:left}
@@ -108,7 +108,7 @@ var mf_defaults = {
             a = document.getElementById(this.containerId),
             b = document.createElement("script");
         b.type = "text/javascript";
-        b.src = this.feedsUri[c].url + "/feeds/posts/summary" + (this.feedsUri[c].tag ? "/-/" + this.feedsUri[c].tag : "") + "?alt=json-in-script&max-results=" + this.numPost + "&callback=listEntries";
+        b.src = this.feedsUri[c].url + "/feeds/posts/default" + (this.feedsUri[c].tag ? "/-/" + this.feedsUri[c].tag : "") + "?alt=json-in-script&max-results=" + this.numPost + "&callback=listEntries";
         d.appendChild(b)
     }
 };
@@ -128,10 +128,11 @@ function listEntries(q) {
         if (f == p.length) {
             break
         }
+		
         n = (c.titleLength !== "auto") ? p[f].title.$t.substring(0, c.titleLength) + (c.titleLength < p[f].title.$t.length ? "&hellip;" : "") : p[f].title.$t;
         m = ("summary" in p[f]) ? p[f].summary.$t.replace(/<br ?\/?>/g, " ").replace(/<.*?>/g, "").replace(/[<>]/g, "") : "";
         m = (c.summaryLength < m.length) ? m.substring(0, c.summaryLength) + "&hellip;" : m;
-        g = ("media$thumbnail" in p[f]) ? '<img src="' + p[f].media$thumbnail.url.replace(/\/s72(\-c)?\//, "/s" + c.thumbSize + "-c/") + '" style="width:' + c.thumbSize + "px;height:" + c.thumbSize + 'px;" width="72" height="72">' : '<span class="fake-img" style="width:' + c.thumbSize + "px;height:" + c.thumbSize + 'px;"></span>';
+        g = ("media$thumbnail" in p[f]) ? '<img src="' + p[f].media$thumbnail.url.replace(/\/s72(\-c)?\//, "/s" + c.thumbSize + "-c/") + '" style="width:' + c.thumbSize + "px;height:" + c.thumbSize + 'px;" width="72" height="72">' : '<img src="'+p[f].content.$t.match(/\<img.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\>/)[1]+'" width="72" height="72">';
         for (var e = 0, b = p[f].link.length; e < b; e++) {
             k = (p[f].link[e].rel == "alternate") ? p[f].link[e].href : "#"
         }
