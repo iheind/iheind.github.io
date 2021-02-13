@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content='width=device-width, initial-scale=1' name='viewport'>
+</head>
+<body>
+<pre id='json'></pre>
+<script type="text/javascript">
+function getJSONP(url, success) {
+
+    var ud = '_' + +new Date,
+        script = document.createElement('script'),
+        head = document.getElementsByTagName('head')[0] 
+               || document.documentElement;
+
+    window[ud] = function(data) {
+        head.removeChild(script);
+        success && success(data);
+    };
+
+    script.src = url.replace('callback=?', 'callback=' + ud);
+    head.appendChild(script);
+    
+}
+
+getJSONP('https://www.resepso.com/feeds/posts/default?alt=json-in-script&max-results=3&callback=?', function(json){
+  	var arr = [];
+    for (var i = 0; i < json.feed.entry.length; i++) {
+      for (var j = 0; j < json.feed.entry[i].link.length; j++) {
+        if (json.feed.entry[i].link[j].rel == 'alternate') {
+          var postUrl = json.feed.entry[i].link[j].href;
+          break;
+        }
+      }
+      var dic = {};
+      var postTitle = json.feed.entry[i].title.$t;
+      var postSummary = json.feed.entry[i].content.$t;
+      dic['title'] = postTitle;
+      dic['url'] = postUrl;
+      arr.push(dic)
+    }
+    document.getElementById("json").innerHTML = JSON.stringify(arr);
+    	console.log(arr);
+});  
+</script>
+</body>
+</html>
