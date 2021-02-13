@@ -5,7 +5,7 @@
 <meta content='width=device-width, initial-scale=1' name='viewport'>
 </head>
 <body>
-<pre id='json'></pre>
+<pre id='json'>test</pre>
 <script type="text/javascript">
 function getJSONP(url, success) {
 
@@ -40,7 +40,7 @@ getJSONP('https://www.resepso.com/feeds/posts/default?alt=json-in-script&max-res
       dic['url'] = postUrl;
       arr.push(dic)
     }
-    document.getElementById("json").innerHTML = JSON.stringify(arr);
+    document.getElementById("json").innerHTML = JSON.stringify(json);
     	console.log(arr);
 });  
 </script>
